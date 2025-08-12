@@ -1,0 +1,16 @@
+Config :
+  # d=day w=week m=month
+  every : 1w
+  time : "00:00"
+
+Save :
+  # u can keep it null while auto-generate
+  # u can specify by yourself use format dd-MM-yyyy
+  nextReset : null
+
+Worlds :
+  - world_the_end
+
+Lobby :
+  # set null for teleport to bed or main world.
+  - world

@@ -1,10 +1,10 @@
 name: KartaWorldReset
-version: '${version}'
+version: '0.9-BETA'
 main: studio.minekarta.kartaworldreset.KartaWorldReset
 api-version: 1.21
 authors: [ MinekartaStudio ]
 description: Reset worlds automatically in periodically
-depend: ['Multiverse-Core']
+depend: ['multiverse-core']
 softdepend: ['PlaceholderAPI']
 commands:
   kartaworldreset:
