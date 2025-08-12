@@ -1,23 +1,23 @@
-# Endworldreset-Plugin
-Reset World The End automaticaly in periodically.
+# KartaWorldReset Plugin
+Reset worlds automatically on a schedule.
 
-## Feature
-- Schedule the world end reset
-- Support PlaceholderAPI
-- Support Multi World
-- Set default lobby
-- Easy to use
+## Features
+- Schedule world resets (daily, weekly, or monthly)
+- PlaceholderAPI support for displaying reset timers
+- Multi-world support
+- Set a lobby world for players to be teleported to before a reset
+- Easy to use and configure
 
 ## Usage
 ```
 [Usages]:
-/endworldreset reload           Reload config plugin (Admin)
-/endworldreset autogen          Auto generate config (Admin)
-/endworldreset info             Show time left
-/endworldreset info setting     Show config info (Admin)
-/endworldreset info worldlist   Show world reset list (Admin)
-/endworldreset info clock       Show system clock
-/endworldreset papi reload      Reload placeholder expansion (Admin)
+/kartaworldreset reload           Reload config plugin (Admin)
+/kartaworldreset autogen          Auto generate config (Admin)
+/kartaworldreset info             Show time left
+/kartaworldreset info setting     Show config info (Admin)
+/kartaworldreset info worldlist   Show world reset list (Admin)
+/kartaworldreset info clock       Show system clock
+/kartaworldreset papi reload      Reload placeholder expansion (Admin)
 ```
 
 ## Default Config
@@ -29,27 +29,27 @@ Config :
   time : "00:00"
 
 Save :
-  # u can keep it null while auto-generate
-  # u can specify by yourself use format dd-MM-yyyy
+  # You can keep it null for auto-generation
+  # or specify it yourself using the format dd-MM-yyyy
   nextReset : null
 
 Worlds :
   - world_the_end
 
 Lobby :
-  # set null for teleport to bed or main world.
+  # set null to teleport to bed or main world.
   - world
 ```
 
 ## Permissions
-| Permission          | Description                  |
-|---------------------|-------------------------------|
-| endworldreset.admin | Give permission to control plugin setting |
+| Permission              | Description                               |
+|-------------------------|-------------------------------------------|
+| kartaworldreset.admin   | Gives permission to control plugin settings |
 
 
 ## PlaceholderAPI
-| key                 | Description                   |
-|---------------------|-------------------------------|
-| %endworldreset_normal%     | Show time left to reset world in long format |
-| %endworldreset_nextReset%  | Show reset world Date Time                |
-| %endworldreset_short%      | Show time left to reset world in short format |
+| key                     | Description                               |
+|-------------------------|-------------------------------------------|
+| %kartaworldreset_normal%| Show time left to reset world in long format |
+| %kartaworldreset_nextReset%| Show reset world Date and Time          |
+| %kartaworldreset_short% | Show time left to reset world in short format |
