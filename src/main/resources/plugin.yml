@@ -1,0 +1,13 @@
+name: Endworldreset
+version: '${version}'
+main: me.dlands.endworldreset.Endworldreset
+api-version: 1.13
+authors: [ Dlands ]
+description: Reset world automaticaly in periodically
+depend: ['Multiverse-Core']
+softdepend: ['PlaceholderAPI']
+commands:
+  endworldreset:
+    description: Reset World The End automaticaly in periodically. Help to see th manual
+    aliases: ewr
+    usage: Your command is not recognized. Please look at manual /enworldreset help
