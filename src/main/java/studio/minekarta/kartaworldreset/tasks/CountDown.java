@@ -1,5 +1,8 @@
 package studio.minekarta.kartaworldreset.tasks;
 
+import org.mvplugins.multiverse.core.world.LoadedMultiverseWorld;
+import org.mvplugins.multiverse.core.world.MultiverseWorld;
+import org.mvplugins.multiverse.core.world.options.RegenWorldOptions;
 import studio.minekarta.kartaworldreset.KartaWorldReset;
 import studio.minekarta.kartaworldreset.settings.Config;
 import studio.minekarta.kartaworldreset.utils.Utils;
@@ -52,7 +55,12 @@ public class CountDown extends TimerTask {
                                 }
                             }
                         });
-                        KartaWorldReset.getWorldManager().getMVWorldManager().regenWorld(world, true, true, null, true);
+                        KartaWorldReset.getWorldManager().getWorldManager().getWorld(world).peek(mvWorld -> {
+                            if (mvWorld instanceof LoadedMultiverseWorld) {
+                                LoadedMultiverseWorld loadedWorld = (LoadedMultiverseWorld) mvWorld;
+                                KartaWorldReset.getWorldManager().getWorldManager().regenWorld(RegenWorldOptions.world(loadedWorld));
+                            }
+                        });
                     });
                     Bukkit.getOnlinePlayers().forEach((player -> {
                         Utils.sendTitle(player, "New Season is begin", "Prepare yourself to new adventure!", 80);
