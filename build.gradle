@@ -2,7 +2,7 @@ plugins {
     id 'java'
 }
 
-group = 'me.dlands'
+group = 'studio.minekarta'
 
 
 repositories {
@@ -15,10 +15,11 @@ repositories {
         name = 'sonatype'
         url = 'https://oss.sonatype.org/content/groups/public/'
     }
-
     maven {
-        url = "http://repo.onarandombox.com/content/groups/public/"
-        allowInsecureProtocol = true
+        url = 'https://repo.papermc.io/repository/maven-public/'
+    }
+    maven {
+        url = "https://repo.onarandombox.com/content/groups/public/"
     }
 
     maven {
@@ -27,12 +28,12 @@ repositories {
 }
 
 dependencies {
-    compileOnly 'org.spigotmc:spigot-api:1.13.1-R0.1-SNAPSHOT'
-    compileOnly 'com.onarandombox.multiversecore:Multiverse-Core:4.3.1'
-    compileOnly 'me.clip:placeholderapi:2.10.10'
+    compileOnly 'io.papermc.paper:paper-api:1.21-R0.1-SNAPSHOT'
+    compileOnly 'com.onarandombox.multiversecore:multiverse-core:4.3.12'
+    compileOnly 'me.clip:placeholderapi:2.11.6'
 }
 
-def targetJavaVersion = 8
+def targetJavaVersion = 21
 java {
     def javaVersion = JavaVersion.toVersion(targetJavaVersion)
     sourceCompatibility = javaVersion
