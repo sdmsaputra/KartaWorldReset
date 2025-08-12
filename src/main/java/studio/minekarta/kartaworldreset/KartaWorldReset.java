@@ -1,6 +1,6 @@
 package studio.minekarta.kartaworldreset;
 
-import com.onarandombox.MultiverseCore.MultiverseCore;
+import org.mvplugins.multiverse.core.MultiverseCoreApi;
 import studio.minekarta.kartaworldreset.commands.Commands;
 import studio.minekarta.kartaworldreset.papi.PlaceholderView;
 import studio.minekarta.kartaworldreset.settings.Config;
@@ -14,14 +14,14 @@ import java.util.logging.Logger;
 public final class KartaWorldReset extends JavaPlugin {
 
     private static  Plugin plugin;
-    private static MultiverseCore worldManager;
+    private static MultiverseCoreApi worldManager;
     public static Logger log;
 
     @Override
     public void onEnable() {
         // Plugin startup logic
         plugin = this;
-        worldManager = (MultiverseCore) Bukkit.getPluginManager().getPlugin("Multiverse-Core");
+        worldManager = MultiverseCoreApi.get();
         log = this.getLogger();
         Config.setup();
         if(Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")){
@@ -36,7 +36,7 @@ public final class KartaWorldReset extends JavaPlugin {
         // Plugin shutdown logic
     }
 
-    public static MultiverseCore getWorldManager() {
+    public static MultiverseCoreApi getWorldManager() {
         return worldManager;
     }
     public static Plugin getPlugin() {
