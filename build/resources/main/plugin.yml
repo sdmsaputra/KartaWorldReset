@@ -1,5 +1,5 @@
 name: KartaWorldReset
-version: '1.0.1-SNAPSHOT'
+version: '1.1.0-SNAPSHOT'
 main: studio.minekarta.kartaworldreset.KartaWorldReset
 api-version: 1.21
 authors: [ MinekartaStudio ]
