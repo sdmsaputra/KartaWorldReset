@@ -1,7 +1,7 @@
 package studio.minekarta.kartaworldreset.settings;
 
-import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
+import studio.minekarta.kartaworldreset.utils.Utils;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -29,6 +29,6 @@ public class Messages {
     }
 
     private String translate(String message) {
-        return ChatColor.translateAlternateColorCodes('&', message);
+        return Utils.translate(message);
     }
 }
