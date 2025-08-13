@@ -14,3 +14,22 @@ Worlds :
 Lobby :
   # set null for teleport to bed or main world.
   - world
+
+Messages:
+  reload: "&a[KartaWorldReset] Configuration reloaded!"
+  autogen: "&a[KartaWorldReset] Autogen complete!"
+  papi-reloaded: "&a[KartaWorldReset] PAPI Registered!"
+  papi-failed: "&c[KartaWorldReset] PAPI Register is failed!"
+  no-permission: "&cYou don't have permission to do that."
+  world-list: "&eWorldlist : &f[%worlds%]"
+  lobby: "&eLobby : &f%lobby%"
+  help:
+    - "&eKartaWorldReset Plugin"
+    - "&e[Usages]:"
+    - "&f/kwr reload &7- &aReload config plugin (Admin)"
+    - "&f/kwr autogen &7- &aAuto generate config (Admin)"
+    - "&f/kwr info &7- &aShow time left"
+    - "&f/kwr info setting &7- &aShow config info (Admin)"
+    - "&f/kwr info worldlist &7- &aShow world reset list (Admin)"
+    - "&f/kwr info clock &7- &aShow system clock"
+    - "&f/kwr papi reload &7- &aReload placeholder expansion"
