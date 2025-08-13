@@ -1,10 +1,11 @@
-# KartaWorldReset Plugin v1.0.1-SNAPSHOT
+# KartaWorldReset Plugin v1.1.0-SNAPSHOT
 
 A powerful and easy-to-use plugin for automatically resetting worlds on a schedule.
 
 ## Features
 - **Scheduled Resets**: Configure worlds to reset daily, weekly, or monthly at a specific time.
 - **Multi-world Support**: Specify multiple worlds to be reset simultaneously.
+- **Dynamic World Management**: Add or remove worlds from the reset list directly via in-game commands.
 - **Customizable Messages**: Almost all plugin messages can be customized through the `config.yml`.
 - **PlaceholderAPI Support**: Display countdown timers and reset information on scoreboards, boss bars, and more.
 - **Lobby System**: Set a safe lobby world for players to be teleported to before a world reset occurs.
@@ -22,6 +23,8 @@ The main command is `/kartaworldreset`, which can be aliased with `/kwr`.
 | `/kwr info worldlist`    | Shows the list of worlds to be reset.     | `kartaworldreset.admin` |
 | `/kwr reload`            | Reloads the plugin's configuration file.  | `kartaworldreset.admin` |
 | `/kwr autogen`           | Automatically generates the `nextReset` date. | `kartaworldreset.admin` |
+| `/kwr addworld <world>`  | Adds a world to the reset list.           | `kartaworldreset.admin` |
+| `/kwr removeworld <world>`| Removes a world from the reset list.      | `kartaworldreset.admin` |
 | `/kwr papi reload`       | Reloads the PlaceholderAPI expansion.     | `kartaworldreset.admin` |
 
 ## Permissions
@@ -66,6 +69,7 @@ Lobby:
 
 ### Message Customization
 All user-facing messages can be customized in the `Messages` section. You can use standard Bukkit color codes (`&a`, `&b`, etc.).
+New messages for the `addworld` and `removeworld` commands have been added.
 
 ```yaml
 Messages:
@@ -76,11 +80,19 @@ Messages:
   no-permission: "&cYou don't have permission to do that."
   world-list: "&eWorldlist : &f[%worlds%]"
   lobby: "&eLobby : &f%lobby%"
+  world-added: "&aWorld %world% has been added to the list."
+  world-removed: "&aWorld %world% has been removed from the list."
+  world-already-exists: "&cWorld %world% is already in the list."
+  world-not-found: "&cWorld %world% is not in the list."
+  add-world-usage: "&cUsage: /kwr addworld <world>"
+  remove-world-usage: "&cUsage: /kwr removeworld <world>"
   help:
     - "&eKartaWorldReset Plugin"
     - "&e[Usages]:"
     - "&f/kwr reload &7- &aReload config plugin (Admin)"
     - "&f/kwr autogen &7- &aAuto generate config (Admin)"
+    - "&f/kwr addworld <world> &7- &aAdd world to reset list (Admin)"
+    - "&f/kwr removeworld <world> &7- &aRemove world from reset list (Admin)"
     - "&f/kwr info &7- &aShow time left"
     - "&f/kwr info setting &7- &aShow config info (Admin)"
     - "&f/kwr info worldlist &7- &aShow world reset list (Admin)"

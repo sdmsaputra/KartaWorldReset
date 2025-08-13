@@ -55,6 +55,48 @@ public class Commands implements CommandExecutor, TabCompleter {
                 }, () -> sender.sendMessage(Config.getMessages().noPermission));
                 return true;
             }
+
+            if (args[0].equalsIgnoreCase("addworld")) {
+                Utils.runAsPermission(sender, adminPermission, () -> {
+                    if (args.length < 2) {
+                        sender.sendMessage(Config.getMessages().addWorldUsage);
+                        return;
+                    }
+                    String worldName = args[1];
+                    List<String> worlds = Config.getWorldList().getWorlds();
+                    if (worlds.contains(worldName)) {
+                        sender.sendMessage(Config.getMessages().worldAlreadyExists.replace("%world%", worldName));
+                    } else {
+                        worlds.add(worldName);
+                        Config.get().set("Worlds", worlds);
+                        Config.saveConfig();
+                        Config.reload();
+                        sender.sendMessage(Config.getMessages().worldAdded.replace("%world%", worldName));
+                    }
+                }, () -> sender.sendMessage(Config.getMessages().noPermission));
+                return true;
+            }
+
+            if (args[0].equalsIgnoreCase("removeworld")) {
+                Utils.runAsPermission(sender, adminPermission, () -> {
+                    if (args.length < 2) {
+                        sender.sendMessage(Config.getMessages().removeWorldUsage);
+                        return;
+                    }
+                    String worldName = args[1];
+                    List<String> worlds = Config.getWorldList().getWorlds();
+                    if (worlds.contains(worldName)) {
+                        worlds.remove(worldName);
+                        Config.get().set("Worlds", worlds);
+                        Config.saveConfig();
+                        Config.reload();
+                        sender.sendMessage(Config.getMessages().worldRemoved.replace("%world%", worldName));
+                    } else {
+                        sender.sendMessage(Config.getMessages().worldNotFound.replace("%world%", worldName));
+                    }
+                }, () -> sender.sendMessage(Config.getMessages().noPermission));
+                return true;
+            }
             if(args[0].equalsIgnoreCase("help")){
                 help(sender);
                 return true;
@@ -98,6 +140,8 @@ public class Commands implements CommandExecutor, TabCompleter {
             if (sender.hasPermission(adminPermission)) {
                 subcommands.add("reload");
                 subcommands.add("autogen");
+                subcommands.add("addworld");
+                subcommands.add("removeworld");
                 if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
                     subcommands.add("papi");
                 }
@@ -119,6 +163,16 @@ public class Commands implements CommandExecutor, TabCompleter {
                 if ("reload".startsWith(args[1].toLowerCase())) {
                     completions.add("reload");
                 }
+            } else if (args[0].equalsIgnoreCase("removeworld") && sender.hasPermission(adminPermission)) {
+                completions.addAll(Config.getWorldList().getWorlds().stream()
+                        .filter(s -> s.startsWith(args[1].toLowerCase()))
+                        .collect(Collectors.toList()));
+            } else if (args[0].equalsIgnoreCase("addworld") && sender.hasPermission(adminPermission)) {
+                completions.addAll(Bukkit.getWorlds().stream()
+                        .map(org.bukkit.World::getName)
+                        .filter(s -> !Config.getWorldList().getWorlds().contains(s))
+                        .filter(s -> s.startsWith(args[1].toLowerCase()))
+                        .collect(Collectors.toList()));
             }
         }
         return completions;

@@ -48,6 +48,14 @@ public class Config {
         }
     }
 
+    public static void saveConfig() {
+        try {
+            config.save(file);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     public static void reload(){
         config = YamlConfiguration.loadConfiguration(file);
         settings = new Settings(config);
