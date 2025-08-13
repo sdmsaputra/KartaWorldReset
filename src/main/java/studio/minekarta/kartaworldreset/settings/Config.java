@@ -15,6 +15,7 @@ public class Config {
     private static FileConfiguration config;
     private static Settings settings;
     private static WorldList worldList;
+    private static Messages messages;
 
     public static void setup(){
         file = new File(KartaWorldReset.getPlugin().getDataFolder(), "config.yml");
@@ -51,6 +52,7 @@ public class Config {
         config = YamlConfiguration.loadConfiguration(file);
         settings = new Settings(config);
         worldList = new WorldList(config);
+        messages = new Messages(config);
         if(settings.getNextReset() == null){
             settings.set();
         }
@@ -64,5 +66,9 @@ public class Config {
 
     public static WorldList getWorldList() {
         return worldList;
+    }
+
+    public static Messages getMessages() {
+        return messages;
     }
 }
