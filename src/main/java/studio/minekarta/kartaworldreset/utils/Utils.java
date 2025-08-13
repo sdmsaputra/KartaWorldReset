@@ -6,8 +6,23 @@ import org.bukkit.entity.Player;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Utils {
+
+    public static String translate(String text) {
+        final Pattern pattern = Pattern.compile("&#([a-fA-F0-9]{6})");
+        Matcher matcher = pattern.matcher(text);
+        StringBuffer buffer = new StringBuffer(text.length() + 4 * 8);
+
+        while (matcher.find()) {
+            String group = matcher.group(1);
+            matcher.appendReplacement(buffer, net.md_5.bungee.api.ChatColor.of("#" + group).toString());
+        }
+
+        return ChatColor.translateAlternateColorCodes('&', matcher.appendTail(buffer).toString());
+    }
 
     public static boolean runAsPermission(CommandSender sender, String permissionName, Runnable runnable, Runnable noPermission){
         boolean isHas = sender.hasPermission(permissionName);
