@@ -12,8 +12,10 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Commands implements CommandExecutor, TabCompleter {
     @Override
@@ -26,18 +28,18 @@ public class Commands implements CommandExecutor, TabCompleter {
                     return true;
                 } else {
                     if(args[1].equalsIgnoreCase("setting")){
-                        Utils.runAsPermission(sender, adminPermission, ()-> sender.sendMessage(Config.getSettings().getInfoPrint()));
+                        Utils.runAsPermission(sender, adminPermission, ()-> sender.sendMessage(Config.getSettings().getInfoPrint()), () -> sender.sendMessage(Config.getMessages().noPermission));
                         return true;
                     } else if(args[1].equalsIgnoreCase("worldlist")){
                         Utils.runAsPermission(sender, adminPermission, () -> {
-                           StringBuilder message = new StringBuilder();
+                           StringBuilder worlds = new StringBuilder();
                            Config.getWorldList().getWorlds().forEach(s -> {
-                               message.append(", " + s);
+                               worlds.append(", ").append(s);
                            });
-                           message.delete(0, 2);
-                           sender.sendMessage("Worldlist : [" + message +"]");
-                           sender.sendMessage("Lobby : " + Config.getWorldList().getLobby());
-                        });
+                           worlds.delete(0, 2);
+                           sender.sendMessage(Config.getMessages().worldList.replace("%worlds%", worlds));
+                           sender.sendMessage(Config.getMessages().lobby.replace("%lobby%", Config.getWorldList().getLobby()));
+                        }, () -> sender.sendMessage(Config.getMessages().noPermission));
                         return true;
                     } else if(args[1].equalsIgnoreCase("clock")){
                         sender.sendMessage(Utils.getClockInfo());
@@ -49,8 +51,8 @@ public class Commands implements CommandExecutor, TabCompleter {
             if(args[0].equalsIgnoreCase("reload")){
                 Utils.runAsPermission(sender, adminPermission, ()->{
                     Config.reload();
-                    sender.sendMessage("[KartaWorldReset] Configuration reloaded!");
-                });
+                    sender.sendMessage(Config.getMessages().reload);
+                }, () -> sender.sendMessage(Config.getMessages().noPermission));
                 return true;
             }
             if(args[0].equalsIgnoreCase("help")){
@@ -59,20 +61,20 @@ public class Commands implements CommandExecutor, TabCompleter {
             }
             if(args[0].equalsIgnoreCase("autogen")){
                 Utils.runAsPermission(sender, adminPermission, ()->{
-                    sender.sendMessage("[KartaWorldReset] Autogen complete!");
                     Config.getSettings().set();
-                });
+                    sender.sendMessage(Config.getMessages().autogen);
+                }, () -> sender.sendMessage(Config.getMessages().noPermission));
                 return true;
             }
-            if(args[0].equalsIgnoreCase("papi") && args[1].equalsIgnoreCase("reload")){
+            if (args.length > 1 && args[0].equalsIgnoreCase("papi") && args[1].equalsIgnoreCase("reload")) {
                 Utils.runAsPermission(sender, adminPermission, ()->{
                     new PlaceholderView().register();
                     if(PlaceholderAPI.isRegistered("kartaworldreset")){
-                        sender.sendMessage("[KartaWorldReset] PAPI Registered!");
+                        sender.sendMessage(Config.getMessages().papiReloaded);
                     } else {
-                        sender.sendMessage("[KartaWorldReset] PAPI Register is failed!");
+                        sender.sendMessage(Config.getMessages().papiFailed);
                     }
-                });
+                }, () -> sender.sendMessage(Config.getMessages().noPermission));
                 return true;
             }
             return false;
@@ -83,36 +85,42 @@ public class Commands implements CommandExecutor, TabCompleter {
     }
 
     void help(CommandSender sender){
-        sender.sendMessage("KartaWorldReset Plugin\n" +
-                "[Usages]:\n" +
-                "/kartaworldreset reload           Reload config plugin (Admin)\n" +
-                "/kartaworldreset autogen          Auto generate config (Admin)\n" +
-                "/kartaworldreset info             Show time left\n" +
-                "/kartaworldreset info setting     Show config info (Admin)\n" +
-                "/kartaworldreset info worldlist   Show world reset list (Admin)\n" +
-                "/kartaworldreset info clock       Show system clock" +
-                "/kartaworldreset papi reload      Reload placeholder expansion");
+        Config.getMessages().help.forEach(sender::sendMessage);
     }
 
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
-        String[] complition= {};
-        if(args.length == 1){
-            complition = new String[]{"reload", "autogen", "info"};
-            if(Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")){
-                complition = new String[]{"reload", "autogen", "info", "papi"};
+        List<String> completions = new ArrayList<>();
+        String adminPermission = "kartaworldreset.admin";
+
+        if (args.length == 1) {
+            List<String> subcommands = new ArrayList<>(Arrays.asList("info", "help"));
+            if (sender.hasPermission(adminPermission)) {
+                subcommands.add("reload");
+                subcommands.add("autogen");
+                if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
+                    subcommands.add("papi");
+                }
+            }
+            completions.addAll(subcommands.stream()
+                    .filter(s -> s.startsWith(args[0].toLowerCase()))
+                    .collect(Collectors.toList()));
+        } else if (args.length == 2) {
+            if (args[0].equalsIgnoreCase("info")) {
+                List<String> infoSubcommands = new ArrayList<>(Arrays.asList("clock"));
+                if (sender.hasPermission(adminPermission)) {
+                    infoSubcommands.add("setting");
+                    infoSubcommands.add("worldlist");
+                }
+                completions.addAll(infoSubcommands.stream()
+                        .filter(s -> s.startsWith(args[1].toLowerCase()))
+                        .collect(Collectors.toList()));
+            } else if (args[0].equalsIgnoreCase("papi") && sender.hasPermission(adminPermission)) {
+                if ("reload".startsWith(args[1].toLowerCase())) {
+                    completions.add("reload");
+                }
             }
         }
-        if(args.length == 2){
-            switch (args[0]){
-                case "info":
-                    complition = new String[]{"setting", "worldlist", "clock"};
-                    break;
-                case "papi":
-                    complition = new String[]{"reload"};
-                    break;
-            }
-        }
-        return Arrays.asList(complition);
+        return completions;
     }
 }

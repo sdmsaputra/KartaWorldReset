@@ -9,10 +9,10 @@ import java.util.Date;
 
 public class Utils {
 
-    public static boolean runAsPermission(CommandSender sender, String permissionName, Runnable runnable){
+    public static boolean runAsPermission(CommandSender sender, String permissionName, Runnable runnable, Runnable noPermission){
         boolean isHas = sender.hasPermission(permissionName);
         if (!isHas) {
-            sender.sendMessage(ChatColor.RED + "You dont have permission to execute this command!");
+            noPermission.run();
         } else {
             runnable.run();
         }
