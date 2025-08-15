@@ -9,7 +9,7 @@ Save :
   nextReset : null
 
 Worlds :
-  - world_the_end
+  - your_world
 
 Lobby :
   # set null for teleport to bed or main world.
