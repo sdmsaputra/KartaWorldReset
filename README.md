@@ -1,4 +1,4 @@
-# KartaWorldReset Plugin v1.1.0-SNAPSHOT
+# KartaWorldReset Plugin v1.2.0-SNAPSHOT
 
 A powerful and easy-to-use plugin for automatically resetting worlds on a schedule.
 
@@ -26,6 +26,7 @@ The main command is `/kartaworldreset`, which can be aliased with `/kwr`.
 | `/kwr addworld <world>`  | Adds a world to the reset list.           | `kartaworldreset.admin` |
 | `/kwr removeworld <world>`| Removes a world from the reset list.      | `kartaworldreset.admin` |
 | `/kwr papi reload`       | Reloads the PlaceholderAPI expansion.     | `kartaworldreset.admin` |
+| `/kwr reset`             | Manually resets the worlds in the list.   | `kartaworldreset.admin` |
 
 ## Permissions
 | Permission              | Description                               |
@@ -59,7 +60,7 @@ Save:
 
 Worlds:
   # A list of worlds to be reset.
-  - world_the_end
+  - your_world
 
 Lobby:
   # The world to teleport players to before the reset.
