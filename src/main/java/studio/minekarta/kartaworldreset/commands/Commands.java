@@ -3,6 +3,7 @@ package studio.minekarta.kartaworldreset.commands;
 import me.clip.placeholderapi.PlaceholderAPI;
 import studio.minekarta.kartaworldreset.papi.PlaceholderView;
 import studio.minekarta.kartaworldreset.settings.Config;
+import studio.minekarta.kartaworldreset.utils.Reset;
 import studio.minekarta.kartaworldreset.utils.ScheduleTimer;
 import studio.minekarta.kartaworldreset.utils.Utils;
 import org.bukkit.Bukkit;
@@ -101,6 +102,14 @@ public class Commands implements CommandExecutor, TabCompleter {
                 help(sender);
                 return true;
             }
+
+            if(args[0].equalsIgnoreCase("reset")){
+                Utils.runAsPermission(sender, adminPermission, ()->{
+                    Reset.world();
+                    Config.getSettings().set();
+                }, () -> sender.sendMessage(Config.getMessages().noPermission));
+                return true;
+            }
             if(args[0].equalsIgnoreCase("autogen")){
                 Utils.runAsPermission(sender, adminPermission, ()->{
                     Config.getSettings().set();
@@ -142,6 +151,7 @@ public class Commands implements CommandExecutor, TabCompleter {
                 subcommands.add("autogen");
                 subcommands.add("addworld");
                 subcommands.add("removeworld");
+                subcommands.add("reset");
                 if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
                     subcommands.add("papi");
                 }
