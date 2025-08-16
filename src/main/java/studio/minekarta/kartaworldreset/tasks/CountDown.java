@@ -45,8 +45,10 @@ public class CountDown extends TimerTask {
                             Reset.world();
                         }
                     }.runTask(KartaWorldReset.getPlugin());
-            Config.getSettings().set();
-            timer.cancel();
+                    Config.getSettings().set();
+                    timer.cancel();
+                }
+            }.runTask(KartaWorldReset.getPlugin());
         }
     }
 }
